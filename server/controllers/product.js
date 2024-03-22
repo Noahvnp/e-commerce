@@ -145,6 +145,22 @@ const ratings = asyncHandler(async (req, res) => {
   });
 });
 
+const uploadImagesProduct = asyncHandler(async (req, res) => {
+  const { pid } = req.params;
+  if (!req.files) throw new Error("Thiếu dữ liệu đầu vào");
+
+  const response = await Product.findByIdAndUpdate(
+    pid,
+    { $push: { images: { $each: req.files.map((el) => el.path) } } },
+    { new: true }
+  );
+
+  return res.status(200).json({
+    success: response ? true : false,
+    updatedProduct: response ?? "Không thể thêm hình ảnh",
+  });
+});
+
 module.exports = {
   createProduct,
   getProduct,
@@ -152,4 +168,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   ratings,
+  uploadImagesProduct,
 };

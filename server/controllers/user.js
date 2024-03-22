@@ -220,6 +220,25 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
   });
 });
 
+const updateUserAddress = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  if (!_id || Object.keys(req.body).length === 0)
+    throw new Error("Thiếu dữ liệu đầu vào");
+
+  const response = await User.findByIdAndUpdate(
+    _id,
+    { $push: { address: req.body.address } },
+    {
+      new: true,
+    }
+  );
+
+  return res.status(200).json({
+    success: response ? true : false,
+    updateUser: response ?? "Có lỗi xảy ra",
+  });
+});
+
 module.exports = {
   register,
   login,
@@ -231,5 +250,6 @@ module.exports = {
   getUsers,
   deleteUser,
   updateUser,
+  updateUserAddress,
   updateUserByAdmin,
 };
