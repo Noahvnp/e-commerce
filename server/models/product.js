@@ -63,6 +63,11 @@ var productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    thumbnail: {
+      type: String,
+      default:
+        "https://e7.pngegg.com/pngimages/576/719/png-clipart-new-product-development-marketing-product-innovation-sales-product-stamp-emblem-text-thumbnail.png",
+    },
   },
   {
     timestamps: true,
