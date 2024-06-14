@@ -12,11 +12,6 @@ export const navigation = [
     path: `/${paths.BLOG}`,
   },
   {
-    id: 3,
-    value: "Sản Phẩm",
-    path: `/${paths.PRODUCTS}`,
-  },
-  {
     id: 4,
     value: "Về chúng tôi",
     path: `/${paths.SERVICES}`,
@@ -25,5 +20,10 @@ export const navigation = [
     id: 5,
     value: "FAQs",
     path: `/${paths.FAQ}`,
+  },
+  {
+    id: 3,
+    value: "Đăng nhập",
+    path: `/${paths.LOGIN}`,
   },
 ];

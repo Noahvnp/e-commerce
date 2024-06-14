@@ -21,6 +21,6 @@ export const appSlice = createSlice({
   },
 });
 
-export const {} = appSlice.actions;
+export const { prop } = appSlice.actions;
 
 export default appSlice.reducer;

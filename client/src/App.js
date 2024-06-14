@@ -18,7 +18,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div class="min-h-screen font-main">

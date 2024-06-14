@@ -13,7 +13,11 @@ const Sidebar = () => {
         <NavLink
           key={createSlug(category.title)}
           to={createSlug(category.title)}
-          className={({ isActive }) => (isActive ? "" : "text-2xl font-medium")}
+          className={({ isActive }) =>
+            isActive
+              ? ""
+              : "text-xl font-medium duration-200 hover:text-primary"
+          }
         >
           {category.title}
         </NavLink>
