@@ -4,13 +4,13 @@ import { navigation } from "../utils/constants";
 
 import icons from "../utils/icons";
 
-const { BsCart3, BsSearch, BsSuitHeart, LuUser } = icons;
+const { BsCart3, BsSearch, BsSuitHeart } = icons;
 
 const Header = () => {
-  const handleClick = () => {};
+  // const handleClick = () => {};
 
   return (
-    <div className="container flex h-[120px] items-center justify-center py-[35px]">
+    <div className="container flex h-[100px] items-center justify-center py-[35px]">
       <span className="w-[25%] flex-auto text-3xl font-bold">
         Eshop Digital
       </span>

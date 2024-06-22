@@ -1,14 +1,20 @@
 import React from "react";
 
-const Button = ({ name, handleOnclick, className, iconBefore, iconAfter }) => {
+const Button = ({
+  name,
+  handleOnclick,
+  bgColor,
+  textColor,
+  font,
+  iconBefore,
+  iconAfter,
+  fw,
+}) => {
   return (
     <button
       type="button"
-      className={
-        className
-          ? className
-          : "w-full rounded-md bg-main px-4 py-2 font-semibold text-white"
-      }
+      className={`${bgColor} ${textColor} ${font} ${fw ? "w-full" : "w-fit"} flex w-full items-center justify-center gap-6
+      rounded-md border-2 p-4 duration-200`}
       onClick={() => {
         handleOnclick && handleOnclick();
       }}
