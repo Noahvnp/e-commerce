@@ -5,3 +5,4 @@ export { default as Products } from "./Products";
 export { default as Service } from "./Service";
 export { default as Blog } from "./Blog";
 export { default as Faqs } from "./Faqs";
+export { default as FinalRegister } from "./FinalRegister";

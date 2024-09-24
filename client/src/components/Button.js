@@ -13,7 +13,7 @@ const Button = ({
   return (
     <button
       type="button"
-      className={`${bgColor} ${textColor} ${font} ${fw ? "w-full" : "w-fit"} flex w-full items-center justify-center gap-6
+      className={`${bgColor} ${textColor} ${font} ${fw ? "w-full" : "w-fit"} flex w-full items-center justify-center gap-2
       rounded-md border-2 p-4 duration-200`}
       onClick={() => {
         handleOnclick && handleOnclick();

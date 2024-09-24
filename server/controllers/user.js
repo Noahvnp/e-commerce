@@ -2,6 +2,7 @@ const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const makeToken = require("uniqid");
 
 const {
   generateAccessToken,
@@ -10,25 +11,71 @@ const {
 const sendMail = require("../utils/sendMail");
 
 const register = asyncHandler(async (req, res) => {
-  const { email, password, firstname, lastname } = req.body;
+  const { email, password, firstname, lastname, mobile } = req.body;
 
-  if (!email || !password || !firstname || !lastname)
+  if (!email || !password || !firstname || !lastname || !mobile)
     return res.status(400).json({
       success: false,
       mes: "Thiếu dữ liệu đầu vào",
     });
 
   const user = await User.findOne({ email });
-  if (user) throw new Error("Tài khoản đã tồn tại");
+  const phone = await User.findOne({ mobile });
+
+  if (user || phone) throw new Error("Tài khoản đã tồn tại");
   else {
-    const newUser = await User.create(req.body);
+    const token = makeToken();
+    res.cookie(
+      "dataregister",
+      { ...req.body, token },
+      { httpOnly: true, maxAge: 15 * 60 * 1000 }
+    );
+    // const newUser = await User.create(req.body);
+    const html = `Xin vui lòng click vào link dưới đây để xác thực tài khoản đăng ký Eshop Digital.
+      Link này sẽ hết hạn sau 15 phút kể từ bây giờ. <a href=${process.env.URL_SERVER}/api/user/finalregister/${token}>Click here</a>`;
+
+    const data = {
+      email,
+      html,
+      subject: "Xác thực đăng ký tài khoản",
+    };
+
+    const result = await sendMail(data);
     return res.status(200).json({
-      success: newUser ? 0 : 1,
-      mes: newUser
-        ? "Tạo tài khoản thành công! Hãy đăng nhập để tiếp tục."
-        : "Có lỗi xảy ra!",
+      success: result ? true : false,
+      result,
+      mes: `Thông tin xác thực đã được gửi tới email ${email}.`,
     });
+
+    // return res.status(200).json({
+    //   success: newUser ? 0 : 1,
+    //   mes: newUser
+    //     ? "Tạo tài khoản thành công! Hãy đăng nhập để tiếp tục."
+    //     : "Có lỗi xảy ra!",
+    // });
   }
+});
+
+const finalRegister = asyncHandler(async (req, res) => {
+  const cookie = req.cookies;
+  const { token } = req.params;
+  if (!cookie || cookie?.dataregister?.token !== token) {
+    res.clearCookie("dataregister");
+    return res.redirect(`${process.env.URL_CLIENT}/finalregister/failed`);
+  }
+
+  const newUser = await User.create({
+    email: cookie?.dataregister?.email,
+    password: cookie?.dataregister?.password,
+    firstname: cookie?.dataregister?.firstname,
+    lastname: cookie?.dataregister?.lastname,
+    mobile: cookie?.dataregister?.mobile,
+  });
+  res.clearCookie("dataregister");
+
+  if (newUser)
+    return res.redirect(`${process.env.URL_CLIENT}/finalregister/success`);
+  else return res.redirect(`${process.env.URL_CLIENT}/finalregister/failed`);
 });
 
 const login = asyncHandler(async (req, res) => {
@@ -62,7 +109,8 @@ const login = asyncHandler(async (req, res) => {
       accessToken,
       userData,
     });
-  } else throw new Error("Đăng nhập thất bại!");
+  } else return res.status(400).json({ success: false, mes: "Mật khẩu sai" });
+  // } else throw new Error("Đăng nhập thất bại!");
 });
 
 const getCurrent = asyncHandler(async (req, res) => {
@@ -133,6 +181,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const data = {
     email,
     html,
+    subject: "Reset mật khẩu tài khoản",
   };
 
   const result = await sendMail(data);
@@ -296,6 +345,7 @@ const updateCart = asyncHandler(async (req, res) => {
 
 module.exports = {
   register,
+  finalRegister,
   login,
   getCurrent,
   refreshAccessToken,

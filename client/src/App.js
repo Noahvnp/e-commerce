@@ -11,8 +11,9 @@ import {
   Service,
   Blog,
   Faqs,
+  FinalRegister,
 } from "./pages/public";
-import { fetchCategories } from "./store/asyncActions";
+import { fetchCategories } from "./store/app/asyncActions";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function App() {
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.LOGIN} element={<Login />} />
+          <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.PRODUCTS} element={<Products />} />
           <Route path={path.SERVICES} element={<Service />} />

@@ -2,7 +2,7 @@ import React from "react";
 
 const Navigation = () => {
   return (
-    <div className="w-full h-[38px] flex border">
+    <div className="flex h-[38px] w-full border">
       <li>
         <a href="/">Home</a>
         <a href="/">Home</a>

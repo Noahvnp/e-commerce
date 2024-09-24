@@ -4,6 +4,7 @@ import { IoMdSend } from "react-icons/io";
 import { ImFacebook } from "react-icons/im";
 import { FiTwitter } from "react-icons/fi";
 import { RiLinkedinFill } from "react-icons/ri";
+import { FcGoogle } from "react-icons/fc";
 
 const icons = {
   BsCart3,
@@ -15,6 +16,7 @@ const icons = {
   ImFacebook,
   FiTwitter,
   RiLinkedinFill,
+  FcGoogle,
 };
 
 export default icons;

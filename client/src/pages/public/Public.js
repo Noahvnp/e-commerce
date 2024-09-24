@@ -10,8 +10,9 @@ const Public = () => {
         <span className="cursor-pointer pl-2 font-medium">Shop Now</span>
       </div>
       <Header />
-      <div className="mb-2 w-full border-b-2"></div>
-      <Outlet />
+      <div className="container min-h-screen">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );
